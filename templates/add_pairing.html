@@ -1,0 +1,48 @@
+<form method="POST">
+
+    <label>Year</label>
+    <input type="number" name="year">
+
+    <label>Season</label>
+    <select name="season">
+        <option value="Spring">Spring: January–April</option>
+        <option value="Summer">Summer: May–July</option>
+        <option value="Fall">Fall: September–October</option>
+        <option value="Winter">Winter: November–December</option>
+    </select>
+
+
+    <label>Jill</label>
+    <select name="jill_id">
+        {% for ferret in ferrets %}
+            {% if ferret.sex == "jill" %}
+                <option value="{{ ferret.id }}">{{ ferret.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label>Hob</label>
+    <select name="hob_id">
+        {% for ferret in ferrets %}
+            {% if ferret.sex == "hob" %}
+                <option value="{{ ferret.id }}">{{ ferret.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label>Compatibility Notes</label>
+    <textarea name="compatibility_notes"></textarea>
+
+    <label>Breeding Notes</label>
+    <textarea name="breeding_notes"></textarea>
+
+    <select name="planned">
+        <option value="true">Yes</option>
+        <option value="false">No</option>
+    </select>
+
+
+        <button type="submit">Add Litter</button>
+
+
+</form>

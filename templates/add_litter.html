@@ -1,0 +1,53 @@
+<form method="POST">
+
+    <label>Year</label>
+    <input type="number" name="year">
+
+    <label>Season</label>
+    <select name="season">
+        <option value="Spring">Spring: January–April</option>
+        <option value="Summer">Summer: May–July</option>
+        <option value="Fall">Fall: September–October</option>
+        <option value="Winter">Winter: November–December</option>
+    </select>
+
+    <input type="date" name="birth_date" placeholder="DOB">
+
+    <label>Jill</label>
+    <select name="jill_id">
+        {% for ferret in ferrets %}
+            {% if ferret.sex == "jill" %}
+                <option value="{{ ferret.id }}">{{ ferret.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label>Hob</label>
+    <select name="hob_id">
+        {% for ferret in ferrets %}
+            {% if ferret.sex == "hob" %}
+                <option value="{{ ferret.id }}">{{ ferret.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+
+    <label>Kits Born</label>
+    <input type="number" name="kits_born">
+
+    <label>Kits Lost</label>
+    <input type="number" name="kits_passed">
+
+    <label>Pregnancy Behavior Notes</label>
+    <textarea name="pregnancy_behavior_notes"></textarea>
+
+    <label>Birth Notes</label>
+    <textarea name="birth_notes"></textarea>
+
+    <label>Postpartum Notes</label>
+    <textarea name="postpartum_notes"></textarea>
+
+
+        <button type="submit">Add Litter</button>
+
+
+</form>
