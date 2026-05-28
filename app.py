@@ -230,11 +230,39 @@ pairings_schema = PairingSchema(many=True)
 litter_schema = LitterSchema()
 litters_schema = LitterSchema(many=True)
 
+#---------------------
+# Home Page
+#---------------------
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+#---------------------
+# Page Routes
+#---------------------
+
+@app.route("/ferrets")
+def ferrets_page():
+    return render_template("ferrets.html")
+
+@app.route("/pairings")
+def pairings_page():
+    return render_template("pairings.html")
+
+@app.route("/litters")
+def litters_page():
+    return render_template("litters.html")
+
+@app.route("/reports/")
+def reports_page():
+    return render_template("reports.html")
+
 
 #------------------CRUD ENDPOINTS----------------------------
 
 # GET All Ferrets
-@app.route('/ferrets', methods=['GET'])
+@app.route('/api/ferrets', methods=['GET'])
 def get_ferrets():
     query = select(Ferret)
     ferrets = db.session.execute(query).scalars().all()
@@ -329,7 +357,7 @@ def delete_ferret(id):
 #---------------------------------------------------------------
 
 # GET All Pairings
-@app.route('/pairings', methods=['GET'])
+@app.route('/api/pairings', methods=['GET'])
 def get_pairings():
     query = select(Pairing)
     pairings = db.session.execute(query).scalars().all()
@@ -410,7 +438,7 @@ def delete_pairing(id):
 #---------------------------------------------------------------
 
 # GET All Litters
-@app.route('/litters', methods=['GET'])
+@app.route('/api/litters', methods=['GET'])
 def get_litters():
     query = select(Litter)
     litters = db.session.execute(query).scalars().all()
