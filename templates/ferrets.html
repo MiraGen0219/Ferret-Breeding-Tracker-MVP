@@ -4,6 +4,53 @@
 
 <h2>Ferrets</h2>
 
-<p>Ferret records will appear here.</p>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Breeder</th>
+        <th>Name</th>
+        <th>Sex</th>
+        <th>Birth Date</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Proven</th>
+        <th>Size</th>
+        <th>Color</th>
+        <th>Pattern</th>
+        <th>Fur</th>
+        <th>Heritage</th>
+        <th>Temperament</th>
+        <th>Condition Notes</th>
+        <th>Health Notes</th>
+        <th>Father ID</th>
+        <th>Mother ID</th>
+    </tr>
+
+{% for ferret in ferrets %}
+
+    <tr>
+        <td>{{ ferret.id }}</td>
+        <td>{{ ferret.breeder_name }}</td>
+        <td>{{ ferret.name }}</td>
+        <td>{{ ferret.sex }}</td>
+        <td>{{ ferret.birth_date }}</td>
+        <td>{{ ferret.role }}</td>
+        <td>{{ ferret.status }}</td>
+        <td>{{ ferret.proven }}</td>
+        <td>{{ ferret.size }}</td>
+        <td>{{ ferret.color }}</td>
+        <td>{{ ferret.pattern }}</td>
+        <td>{{ ferret.fur }}</td>
+        <td>{{ ferret.heritage }}</td>
+        <td>{{ ferret.temperament }}</td>
+        <td>{{ ferret.condition_notes }}</td>
+        <td>{{ ferret.health_notes }}</td>
+        <td>{{ ferret.father_id }}</td>
+        <td>{{ ferret.mother_id }}</td>
+    </tr>
+
+{% endfor %}
+
+</table>
 
 {% endblock %}

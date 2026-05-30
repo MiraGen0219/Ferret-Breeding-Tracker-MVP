@@ -244,7 +244,10 @@ def home():
 
 @app.route("/ferrets")
 def ferrets_page():
-    return render_template("ferrets.html")
+ # Ask SQLAlchemy to give me ALL ferret records from the database:   
+    ferrets = Ferret.query.all()
+ # Send ALL ferret records to the Jinja template:   
+    return render_template("ferrets.html", ferrets=ferrets)
 
 @app.route("/pairings")
 def pairings_page():
