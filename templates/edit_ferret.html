@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+<hr>
+<div>
+
+<h3>Edit Ferret</h3>
+
+<form method='POST' action="{{ url_for('edit_ferret', ferret_id=ferret.id) }}">
+
+    <label>Breeder Name</label><br>
+    <input type="text" name="breeder_name" value="{{ ferret.breeder_name }}"><br><br>
+
+    <label>Name</label><br>
+    <input type="text" name="name" value="{{ ferret.name }}"required><br><br>
+
+    <label>Sex</label><br>
+    <select name="sex" required>
+        <option value="jill"{% if ferret.sex == "jill" %}selected{% endif %}>Jill</option>
+        <option value="hob"{% if ferret.sex == "hob" %} selected{% endif %}>Hob</option>
+    </select><br><br>
+
+    <label>Birth Date</label><br>
+    <input type="date" name="birth_date" value="{{ ferret.birth_date }}"><br><br>
+
+    <label>Role</label><br>
+    <select name="role" required>
+        <option value="breeder"{% if ferret.role == "breeder" %}selected{% endif %}>Breeder</option>
+        <option value="companion"{% if ferret.role == "companion" %}selected{% endif %}>Companion</option>
+    </select><br><br>
+
+    <label>Status</label><br>
+    <select name="status" required>
+        <option value="active"{% if ferret.status == "active" %}selected{% endif %}>Active</option>
+        <option value="inactive"{% if ferret.status == "inactive" %}selected{% endif %}>Inactive</option>
+        <option value="retired"{% if ferret.status == "retired" %}selected{% endif %}>Retired</option>
+        <option value="deceased"{% if ferret.status == "deceased" %}selected{% endif %}>Deceased</option>
+        <option value="rehomed"{% if ferret.status == "rehomed" %}selected{% endif %}>Rehomed</option>
+    </select><br><br>
+
+    <label>Proven</label><br>
+    <select name="proven" required>
+        <option value="false"{% if ferret.proven == False %}selected{% endif %}>No</option>
+        <option value="true"{% if ferret.proven == True %}selected{% endif %}>Yes</option>
+    </select><br><br>
+
+    <label>Size</label><br>
+    <select name="size" required>
+        <option value="standard"{% if ferret.size == "standard" %}selected{% endif %}>Standard</option>
+        <option value="mini"{% if ferret.size == "mini" %}selected{% endif %}>Mini</option>
+        <option value="micro"{% if ferret.size == "micro" %}selected{% endif %}>Micro</option>
+    </select><br><br>
+
+    <label>Color</label><br>
+    <select name="color" required>
+        <option value="albino"{% if ferret.color == "albino" %}selected{% endif %}>Albino</option>
+        <option value="black"{% if ferret.color == "black" %}selected{% endif %}>Black</option>
+        <option value="black sable"{% if ferret.color == "black sable" %}selected{% endif %}>Black Sable</option>
+        <option value="champagne"{% if ferret.color == "champagne" %}selected{% endif %}>Champagne</option>
+        <option value="chocolate"{% if ferret.color == "chocolate" %}selected{% endif %}>Chocolate</option>
+        <option value="cinnamon"{% if ferret.color == "cinnamon" %}selected{% endif %}>Cinnamon</option>
+        <option value="dew"{% if ferret.color == "dew" %}selected{% endif %}>DEW</option>
+        <option value="roan"{% if ferret.color == "roan" %}selected{% endif %}>Roan</option>
+        <option value="sable"{% if ferret.color == "sable" %}selected{% endif %}>Sable</option>
+    </select><br><br>
+
+    <label>Pattern</label><br>
+    <select name="pattern" required>
+        <option value="standard"{% if ferret.pattern == "standard" %}selected{% endif %}>Standard</option>
+        <option value="roan mitt"{% if ferret.pattern == "roan mitt" %}selected{% endif %}>Roan Mitt</option>
+        <option value="point"{% if ferret.pattern == "point" %}selected{% endif %}>Point</option>
+        <option value="solid"{% if ferret.pattern == "solid" %}selected{% endif %}>Solid</option>
+        <option value="white blaze"{% if ferret.pattern == "white blaze" %}selected{% endif %}>White Blaze</option>
+        <option value="panda"{% if ferret.pattern == "panda" %}selected{% endif %}>Panda</option>
+        <option value="mitt"{% if ferret.pattern == "mitt" %}selected{% endif %}>Mitt</option>
+    </select><br><br>
+
+    <label>Fur</label><br>
+    <select name="fur" required>
+        <option value="natural"{% if ferret.fur == "natural" %}selected{% endif %}>Natural</option>
+        <option value="angora"{% if ferret.fur == "angora" %}selected{% endif %}>Angora</option>
+        <option value="semi-angora"{% if ferret.fur == "semi-angora" %}selected{% endif %}>Semi-Angora</option>
+        <option value="plush"{% if ferret.fur == "plush" %}selected{% endif %}>Plush</option>
+    </select><br><br>
+
+    <label>Heritage</label><br>
+    <select name="heritage" required>
+        <option value="domestic"{% if ferret.heritage == "domestic" %}selected{% endif %}>Domestic</option>
+        <option value="polecat"{% if ferret.heritage == "polecat" %}selected{% endif %}>Polecat</option>
+        <option value="hybrid 50/50"{% if ferret.heritage == "hybrid 50/50" %}selected{% endif %}>Hybrid 50/50</option>
+        <option value="hybrid custom"{% if ferret.heritage == "hybrid custom" %}selected{% endif %}>Hybrid custom</option>
+    </select><br><br>
+
+    <label>Temperament</label><br>
+    <textarea name="temperament">{{ ferret.temperament }}</textarea><br><br>
+
+    <label>Condition Notes</label><br>
+    <textarea name="condition_notes">{{ ferret.condition_notes }}</textarea><br><br>
+
+    <label>Health Notes</label><br>
+    <textarea name="health_notes">{{ ferret.health_notes }}</textarea><br><br>
+
+<label>Father</label><br>
+<select name="father_id">
+    <option value="">Unknown / Not Recorded</option>
+    {% for parent in ferrets %}
+        {% if parent.sex == "hob" %}
+            <option value="{{ parent.id }}" {% if ferret.father_id == parent.id %}selected{% endif %}>
+                {{ parent.name }}
+            </option>
+        {% endif %}
+    {% endfor %}
+</select><br><br>
+
+<label>Mother</label><br>
+<select name="mother_id">
+    <option value="">Unknown / Not Recorded</option>
+    {% for parent in ferrets %}
+        {% if parent.sex == "jill" %}
+            <option value="{{ parent.id }}" {% if ferret.mother_id == parent.id %}selected{% endif %}>
+                {{ parent.name }}
+            </option>
+        {% endif %}
+    {% endfor %}
+</select><br><br>
+
+    <button type="submit">Update Ferret</button>
+
+</form>
+</div>
+
+{% endblock %}

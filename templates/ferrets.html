@@ -4,6 +4,8 @@
 
 <h2>Ferrets</h2>
 
+<div class="table-container">
+
 <table>
     <tr>
         <th>ID</th>
@@ -24,6 +26,8 @@
         <th>Health Notes</th>
         <th>Father ID</th>
         <th>Mother ID</th>
+
+        <th>Actions</th>
     </tr>
 
 {% for ferret in ferrets %}
@@ -47,10 +51,144 @@
         <td>{{ ferret.health_notes }}</td>
         <td>{{ ferret.father_id }}</td>
         <td>{{ ferret.mother_id }}</td>
+        <td>
+        
+        <a href="{{ url_for('edit_ferret', ferret_id=ferret.id) }}">Edit</a>
+
+        <td>
+            <form method='POST' 
+            action="/ferrets/{{ ferret.id }}/delete"
+            onsubmit="return confirm('Are you sure you want to delete {{ ferret.name }}? This cannot be undone.');">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
 
 {% endfor %}
 
 </table>
+</div>
+
+<hr>
+
+<h3>Add New Ferret</h3>
+
+<form method='POST' action="/ferrets">
+
+    <label>Breeder Name</label><br>
+    <input type="text" name="breeder_name"><br><br>
+
+    <label>Name</label><br>
+    <input type="text" name="name" required><br><br>
+
+    <label>Sex</label><br>
+    <select name="sex" required>
+        <option value="jill">Jill</option>
+        <option value="hob">Hob</option>
+    </select><br><br>
+
+    <label>Birth Date</label><br>
+    <input type="date" name="birth_date"><br><br>
+
+    <label>Role</label><br>
+    <select name="role" required>
+        <option value="breeder">Breeder</option>
+        <option value="companion">Companion</option>
+    </select><br><br>
+
+    <label>Status</label><br>
+    <select name="status" required>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="retired">Retired</option>
+        <option value="deceased">Deceased</option>
+        <option value="rehomed">Rehomed</option>
+    </select><br><br>
+
+    <label>Proven</label><br>
+    <select name="proven" required>
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+    </select><br><br>
+
+    <label>Size</label><br>
+    <select name="size" required>
+        <option value="standard">Standard</option>
+        <option value="mini">Mini</option>
+        <option value="micro">Micro</option>
+    </select><br><br>
+
+    <label>Color</label><br>
+    <select name="color" required>
+        <option value="albino">Albino</option>
+        <option value="black">Black</option>
+        <option value="black sable">Black Sable</option>
+        <option value="champagne">Champagne</option>
+        <option value="chocolate">Chocolate</option>
+        <option value="cinnamon">Cinnamon</option>
+        <option value="dew">DEW</option>
+        <option value="roan">Roan</option>
+        <option value="sable">Sable</option>
+    </select><br><br>
+
+    <label>Pattern</label><br>
+    <select name="pattern" required>
+        <option value="standard">Standard</option>
+        <option value="roan mitt">Roan Mitt</option>
+        <option value="point">Point</option>
+        <option value="solid">Solid</option>
+        <option value="white blaze">White Blaze</option>
+        <option value="panda">Panda</option>
+        <option value="mitt">Mitt</option>
+    </select><br><br>
+
+    <label>Fur</label><br>
+    <select name="fur" required>
+        <option value="natural">Natural</option>
+        <option value="angora">Angora</option>
+        <option value="semi-angora">Semi-Angora</option>
+        <option value="plush">Plush</option>
+    </select><br><br>
+
+    <label>Heritage</label><br>
+    <select name="heritage" required>
+        <option value="domestic">Domestic</option>
+        <option value="polecat">Polecat</option>
+        <option value="hybrid 50/50">Hybrid 50/50</option>
+        <option value="hybrid custom">Hybrid custom</option>
+    </select><br><br>
+
+    <label>Temperament</label><br>
+    <textarea name="temperament"></textarea><br><br>
+
+    <label>Condition Notes</label><br>
+    <textarea name="condition_notes"></textarea><br><br>
+
+    <label>Health Notes</label><br>
+    <textarea name="health_notes"></textarea><br><br>
+
+    <label>Father</label><br>
+    <select name="father_id">
+        <option value="">Unknown / Not Recorded</option>
+        {% for ferret in ferrets %}
+            {% if ferret.sex == "hob" %}
+                <option value="{{ ferret.id }}">{{ ferret.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select><br><br>
+
+    <label>Mother</label><br>
+    <select name="mother_id">
+        <option value="">Unknown / Not Recorded</option>
+        {% for ferret in ferrets %}
+            {% if ferret.sex == "jill" %}
+                <option value="{{ ferret.id}}">{{ ferret.name }}</option>
+            {% endif %}
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Add Ferret</button>
+
+</form>
 
 {% endblock %}

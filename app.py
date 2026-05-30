@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dotenv import load_dotenv
 import os
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from sqlalchemy.orm import DeclarativeBase
@@ -242,12 +242,88 @@ def home():
 # Page Routes
 #---------------------
 
-@app.route("/ferrets")
+@app.route("/ferrets", methods=['GET', 'POST'])
 def ferrets_page():
+    
+    if request.method == 'POST':
+        father_id = request.form.get("father_id")
+        mother_id = request.form.get("mother_id")
+        
+        father_id = int(father_id) if father_id else None
+        mother_id = int(mother_id) if mother_id else None
+        
+        proven_value = request.form.get("proven")
+        proven = True if proven_value == "true" else False
+        
+        new_ferret = Ferret(
+            breeder_name=request.form.get("breeder_name"),
+            name=request.form.get("name"),
+            sex=request.form.get("sex"),
+            birth_date=request.form.get("brith_date") or None,
+            role=request.form.get("role"),
+            status=request.form.get("status"),
+            proven=proven,
+            size=request.form.get("size"),
+            color=request.form.get("color"),
+            pattern=request.form.get("pattern"),
+            fur=request.form.get("fur"),
+            heritage=request.form.get("heritage"),
+            temperament=request.form.get("temperament"),
+            condition_notes=request.form.get("condition_notes"),
+            health_notes=request.form.get("health_notes"),
+            father_id=father_id,
+            mother_id=mother_id
+        )
+        
+        db.session.add(new_ferret)
+        db.session.commit()
+        
+        return redirect("/ferrets")
+    
  # Ask SQLAlchemy to give me ALL ferret records from the database:   
     ferrets = Ferret.query.all()
  # Send ALL ferret records to the Jinja template:   
     return render_template("ferrets.html", ferrets=ferrets)
+
+@app.route("/ferrets/<int:ferret_id>/edit", methods=['GET', 'POST'])
+def edit_ferret(ferret_id):
+    ferret = Ferret.query.get_or_404(ferret_id)
+    ferrets = Ferret.query.all()
+    
+    if request.method == 'POST':
+        ferret.breeder_name = request.form["breeder_name"]
+        ferret.name = request.form["name"]
+        ferret.sex = request.form["sex"]
+        ferret.role = request.form["role"]
+        ferret.status = request.form["status"]
+        ferret.proven = request.form["proven"].lower() == "true"
+        ferret.size = request.form["size"]
+        ferret.color = request.form["color"]
+        ferret.pattern = request.form["pattern"]
+        ferret.fur = request.form["fur"]
+        ferret.heritage = request.form["heritage"]
+        ferret.temperament = request.form["temperament"]
+        ferret.condition_notes = request.form["condition_notes"]
+        ferret.health_notes = request.form["health_notes"]
+        ferret.father_id = int(request.form["father_id"]) if request.form["father_id"] else None
+        ferret.mother_id = int(request.form["mother_id"]) if request.form["mother_id"] else None
+        
+        db.session.commit()
+        return redirect(url_for("ferrets_page"))
+    
+    return render_template("edit_ferret.html", ferret=ferret, ferrets=ferrets)
+
+@app.route("/ferrets/<int:ferret_id>/delete", methods=['POST'])
+def delete_ferret_from_page(ferret_id):
+    ferret = db.session.get(Ferret, ferret_id)
+    
+    if not ferret:
+        return redirect("/ferrets")
+    
+    db.session.delete(ferret)
+    db.session.commit()
+    
+    return redirect("/ferrets")
 
 @app.route("/pairings")
 def pairings_page():
