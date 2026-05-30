@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Edit Pairing</h2>
+
+<form method="POST" action="{{ url_for('edit_pairing', pairing_id=pairing.id) }}">
+
+    <label>Year</label><br>
+    <select name="year" required>
+        {% for year in years %}
+            <option value="{{ year }}"
+                {% if pairing.year == year %}selected{% endif %}>
+                {{ year }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Season</label><br>
+    <select name="season" required>
+        <option value="spring" {% if pairing.season == "spring" %}selected{% endif %}>Spring</option>
+        <option value="summer" {% if pairing.season == "summer" %}selected{% endif %}>Summer</option>
+        <option value="fall" {% if pairing.season == "fall" %}selected{% endif %}>Fall</option>
+        <option value="winter" {% if pairing.season == "winter" %}selected{% endif %}>Winter</option>
+    </select><br><br>
+
+    <label>Jill</label><br>
+    <select name="jill_id" required>
+        {% for ferret in jills %}
+            <option value="{{ ferret.id }}"
+                {% if pairing.jill_id == ferret.id %}selected{% endif %}>
+                {{ ferret.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Hob</label><br>
+    <select name="hob_id" required>
+        {% for ferret in hobs %}
+            <option value="{{ ferret.id }}"
+                {% if pairing.hob_id == ferret.id %}selected{% endif %}>
+                {{ ferret.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Compatibility Notes</label><br>
+    <textarea name="compatibility_notes">{{ pairing.compatibility_notes }}</textarea><br><br>
+
+    <label>Breeding Notes</label><br>
+    <textarea name="breeding_notes">{{ pairing.breeding_notes }}</textarea><br><br>
+
+    <label>Planned</label><br>
+    <select name="planned" required>
+        <option value="planned" {% if pairing.planned == True %}selected{% endif %}>Planned</option>
+        <option value="completed" {% if pairing.planned == False %}selected{% endif %}>Completed</option>
+    </select><br><br>
+
+    <button type="submit">Update Pairing</button>
+
+</form>
+
+{% endblock %}

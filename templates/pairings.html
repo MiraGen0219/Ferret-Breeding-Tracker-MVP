@@ -4,6 +4,112 @@
 
 <h2>Pairings</h2>
 
-<p>Pairing records will appear here.</p>
+<div>
+
+<h3>Select Year</h3>
+
+<select name="year">
+    {% for year in years %}
+        <option value="{{ year }}"
+        {% if year == current_year %}selected{% endif%}>{{ year }}</option>
+    {% endfor %}
+</select>
+
+<table>
+    <tr>
+        <th>Season</th>
+        <th>Jill</th>
+        <th>Hob</th>
+        <th>Compatibility Notes</th>
+        <th>Breeding Notes</th>
+        <th>Planned</th>
+
+        <th>Actions</th>
+    </tr>
+
+{% for pairing in pairings %}
+
+    <tr>
+        <td>{{ pairing.season }}</td>
+        <td>{{ pairing.jill.name }}</td>
+        <td>{{ pairing.hob.name }}</td>
+        <td>{{ pairing.compatibility_notes }}</td>
+        <td>{{ pairing.breeding_notes }}</td>
+        <td>{{ pairing.planned }}</td>
+   
+        <td>
+            <a href="{{ url_for('edit_pairing', pairing_id=pairing.id) }}">Edit</a>
+
+            <form method='POST' 
+            action="/pairings/{{ pairing.id }}/delete"
+            onsubmit="return confirm('Are you sure you want to delete {{ pairing.id }}? This cannot be undone.');">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+
+{% endfor %}
+
+</table>
+</div>
+
+<hr>
+
+<h3>Edit Pairing</h3>
+
+<form method='POST' action="/pairings">
+
+    <label>Year</label><br>
+    <select name="year" required>
+        {% for year in years %}
+            <option value="{{ year }}"
+                {% if year == current_year %}selected{% endif %}>
+                {{ year }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Season</label><br>
+    <select name="season" required>
+        <option value="spring">Spring</option>
+        <option value="summer">Summer</option>
+        <option value="fall">Fall</option>
+        <option value="winter">Winter</option>
+    </select><br><br>
+
+    <label>Jill</label><br>
+    <select name="jill_id" required>
+        {% for ferret in jills %}
+            <option value="{{ ferret.id }}">
+                {{ ferret.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Hob</label><br>
+    <select name="hob_id" required>
+        {% for ferret in hobs %}
+            <option value="{{ ferret.id }}">
+                {{ ferret.name }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Compatibility Notes</label><br>
+    <textarea name="compatibility_notes"></textarea><br><br>
+
+    <label>Breeding Notes</label><br>
+    <textarea name="breeding_notes"></textarea><br><br>
+
+    <label>Planned</label><br>
+    <select name="planned" required>
+        <option value="planned">Planned</option>
+        <option value="completed">Completed</option>
+    </select><br><br>
+
+    <button type="submit">Add Pairing</button>
+
+</form>
+
 
 {% endblock %}

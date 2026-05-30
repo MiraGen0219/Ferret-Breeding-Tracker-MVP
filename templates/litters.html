@@ -4,6 +4,115 @@
 
 <h2>Litters</h2>
 
-<p>Litter records will appear here.</p>
+<div>
+
+<h3>Select Year</h3>
+
+<select name="year">
+    {% for year in years %}
+        <option value="{{ year }}"
+        {% if year == current_year %}selected{% endif%}>{{ year }}</option>
+    {% endfor %}
+</select>
+
+<table>
+    <tr>
+        <th>Pairing ID</th>
+        <th>Season</th>
+        <th>Birth Date</th>
+        <th>Kits Born</th>
+        <th>Kits Passed</th>
+        <th>Kits Survived</th>
+        <th>Pregnancy Behavior Notes</th>
+        <th>Birth Notes</th>
+        <th>Postpartum Notes</th>
+
+        <th>Actions</th>
+    </tr>
+
+{% for litter in litters %}
+
+    <tr>
+        <td>{{ litter.pairing.jill.hame }} x {{ litter.pairing.hob.name }}</td>
+        <td>{{ litter.season }}</td>
+        <td>{{ litter.birth_date }}</td>
+        <td>{{ litter.kits_born }}</td>
+        <td>{{ litter.kits_passed }}</td>
+        <td>{{ litter.kits_survived }}</td>
+        <td>{{ litter.pregnancy_behavior_notes }}</td>
+        <td>{{ litter.birth_notes }}</td>
+        <td>{{ litter.postpartum_notes }}</td>
+   
+        <td>
+            <a href="{{ url_for('edit_litter', litter_id=litter.id) }}">Edit</a>
+
+            <form method='POST' 
+            action="/litters/{{ litter.id }}/delete"
+            onsubmit="return confirm('Are you sure you want to delete {{ litter.id }}? This cannot be undone.');">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+
+{% endfor %}
+
+</table>
+</div>
+
+<hr>
+
+<h3>Add Litter</h3>
+
+<form method='POST' action="/litters">
+
+    <label>Year</label><br>
+    <select name="year" required>
+        {% for year in years %}
+            <option value="{{ year }}"
+                {% if year == current_year %}selected{% endif %}>
+                {{ year }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Pairing</label><br>
+    <select name="pairing_id" required>
+        {% for pairing in pairings %}
+            <option value="{{ pairing.id }}">
+                {{ pairing.jill.name }} x {{ pairing.hob.name }} - {{ pairing.year }} {{ pairing.season }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>Season</label><br>
+    <select name="season" required>
+        <option value="spring">Spring</option>
+        <option value="summer">Summer</option>
+        <option value="fall">Fall</option>
+        <option value="winter">Winter</option>
+    </select><br><br>
+
+    <label>Birth Date</label><br>
+    <input type="date" name="birth_date"><br><br>
+
+    <label>Kits Born</label><br>
+    <input type="number" name="kits_born" min="0" max="30" required><br><br>
+
+    <label>Kits Passed</label><br>
+    <input type="number" name="kits_passed" min="0" max="30" required><br><br>
+
+    <label>Pregnancy Behavior Notes</label><br>
+    <textarea name="pregnancy_behavior_notes"></textarea><br><br>
+
+    <label>Birth Notes</label><br>
+    <textarea name="birth_notes"></textarea><br><br>
+
+    <label>Postpartum Notes</label><br>
+    <textarea name="postpartum_notes"></textarea><br><br>
+
+    <button type="submit">Add Litter</button>
+
+</form>
+
 
 {% endblock %}

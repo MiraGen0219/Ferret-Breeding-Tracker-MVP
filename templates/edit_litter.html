@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="POST" action="{{ url_for('edit_litter', litter_id=litter.id) }}>
+
+    <label>Year</label>
+    <input type="number" name="year" value="{{ litter.year }}">
+
+    <label>Season</label>
+    <select name="season">
+        <option value="spring" {% if litter.season == "spring" %}selected{% endif %}>Spring: January–April</option>
+        <option value="summer" {% if litter.season == "summer" %}selected{% endif %}>Summer: May–July</option>
+        <option value="fall" {% if litter.season == "fall" %}selected{% endif %}>Fall: September–October</option>
+        <option value="winter" {% if litter.season == "winter" %}selected{% endif %}>Winter: November–December</option>
+    </select>
+
+    <input type="date" name="birth_date" value="{{ litter.birth_date }}">
+
+    <label>Pairing</label>
+    <select name="pairing_id">
+        {% for pairing in pairings %}
+            <option value="{{ pairing.id }}"
+                {% if litter.pairing_id == pairing.id %}selected{% endif %}>
+                {{ pairing.jill.name }} x {{ pairing.hob.name }} - {{ pairing.year }} {{ pairing.season }}
+            </option>
+        {% endfor %}    
+    </select>
+
+    <label>Kits Born</label>
+    <input type="number" name="kits_born" value="{{ litter.kits_born }}" min="0" max="30" required>
+
+    <label>Kits Lost</label>
+    <input type="number" name="kits_passed" value="{{ litter.kits_passed}}" min="0" max="30" required>
+
+    <label>Pregnancy Behavior Notes</label>
+    <textarea name="pregnancy_behavior_notes">{{ litter.pregnancy_behavior_notes }}</textarea>
+
+    <label>Birth Notes</label>
+    <textarea name="birth_notes">{{ litter.birth_notes }}</textarea>
+
+    <label>Postpartum Notes</label>
+    <textarea name="postpartum_notes">{{ litter.postpartum_notes }}</textarea>
+
+
+        <button type="submit">Update Litter</button>
+
+
+</form>
+
+{% endblock %}

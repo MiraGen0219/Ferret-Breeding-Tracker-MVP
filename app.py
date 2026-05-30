@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import select
 from marshmallow import ValidationError, fields
+from datetime import datetime
 
 
 # Initialize Flask app
@@ -325,13 +326,151 @@ def delete_ferret_from_page(ferret_id):
     
     return redirect("/ferrets")
 
-@app.route("/pairings")
+@app.route("/pairings", methods=['GET', 'POST'])
 def pairings_page():
-    return render_template("pairings.html")
+    current_year = datetime.now().year
+    years = range(current_year - 50, current_year + 6)
+    
+    if request.method == 'POST':
+        jill_id = request.form.get("jill_id")
+        hob_id = request.form.get("hob_id")
+        
+        jill_id = int(jill_id) if jill_id else None
+        hob_id = int(hob_id) if hob_id else None
+        
+        planned = request.form.get("planned") == "planned"
+        
+        add_pairing = Pairing(
+            year=request.form.get("year"),
+            season=request.form.get("season"),
+            jill_id=jill_id,
+            hob_id=hob_id,
+            compatibility_notes=request.form.get("compatibility_notes"),
+            breeding_notes=request.form.get("breeding_notes"),
+            planned=planned
+        )
+        
+        db.session.add(add_pairing)
+        db.session.commit()
+        
+        return redirect("/pairings")
+    
+    pairings = Pairing.query.all()
+    jills = Ferret.query.filter_by(sex="jill").all()
+    hobs = Ferret.query.filter_by(sex="hob").all()
 
-@app.route("/litters")
+    return render_template("pairings.html", years=years, current_year=current_year, pairings=pairings, jills=jills, hobs=hobs)
+
+@app.route("/pairings/<int:pairing_id>/edit", methods=['GET', 'POST'])
+def edit_pairing(pairing_id):
+    pairing = Pairing.query.get_or_404(pairing_id)
+    
+    current_year = datetime.now().year
+    years = range(current_year - 50, current_year + 6)
+    
+    jills = Ferret.query.filter_by(sex="jill").all()
+    hobs = Ferret.query.filter_by(sex="hob").all()
+    
+    if request.method == 'POST':
+        pairing.year = int(request.form["year"])
+        pairing.season = request.form["season"]
+        pairing.jill_id = int(request.form["jill_id"])
+        pairing.hob_id = int(request.form["hob_id"])
+        pairing.compatibility_notes = request.form["compatibility_notes"]
+        pairing.breeding_notes = request.form["breeding_notes"]
+        pairing.planned = request.form["planned"] == "planned"
+        
+        db.session.commit()
+        return redirect(url_for("pairings_page"))
+    
+    return render_template("edit_pairing.html", pairing=pairing, years=years, current_year=current_year, jills=jills, hobs=hobs)
+   
+@app.route("/pairings/<int:pairing_id>/delete", methods=['POST'])
+def delete_pairing_from_page(pairing_id):
+    pairing = Pairing.query.get_or_404(pairing_id)
+    
+    db.session.delete(pairing)
+    db.session.commit()
+    
+    return redirect(url_for("pairings_page"))
+
+
+
+
+@app.route("/litters", methods=['GET', 'POST'])
 def litters_page():
-    return render_template("litters.html")
+    current_year = datetime.now().year
+    years = range(current_year - 50, current_year + 6)
+    
+    if request.method == 'POST':
+        kits_born = int(request.form["kits_born"])
+        kits_passed = int(request.form["kits_passed"])
+        kits_survived = kits_born - kits_passed
+        
+        add_litter = Litter(
+            pairing_id=int(request.form.get("pairing_id")),
+            year=int(request.form.get("year")),
+            season=request.form.get("season"),
+            birth_date=request.form.get("birth_date") or None,
+            kits_born=kits_born,
+            kits_passed=kits_passed,
+            kits_survived=kits_survived,
+            pregnancy_behavior_notes=request.form.get("pregnancy_behavior_notes"),
+            birth_notes=request.form.get("birth_notes"),
+            postpartum_notes=request.form.get("postpartum_notes")
+        )
+        
+        db.session.add(add_litter)
+        db.session.commit()
+        
+        return redirect(url_for("litters_page"))
+    
+    litters = Litter.query.all()
+    pairings = Pairing.query.all()
+
+    return render_template("litters.html", litters=litters, pairings=pairings, years=years, current_year=current_year)
+
+
+@app.route("/litters/<int:litter_id>/edit", methods=['GET', 'POST'])
+def edit_litter(litter_id):
+    litter = Litter.query.get_or_404(litter_id)
+    
+    current_year = datetime.now().year
+    years = range(current_year - 50, current_year + 6)
+    pairings = Pairing.query.all()
+    
+    if request.method == 'POST':
+        kits_born = int(request.form["kits_born"])
+        kits_passed = int(request.form["kits_passed"])
+        kits_survived = kits_born - kits_passed
+        
+        litter.year = int(request.form["year"])
+        litter.season = request.form["season"]
+        litter.pairing_id = int(request.form["pairing_id"])
+        litter.birth_date = request.form["birth_date"] or None
+        litter.kits_born = kits_born
+        litter.kits_passed = kits_passed
+        litter.kits_survived = kits_survived
+        litter.pregnancy_behavior_notes = request.form["pregnancy_behavior_notes"]
+        litter.birth_notes = request.form["birth_notes"]
+        litter.postpartum_notes = request.form["postpartum_notes"]
+        
+        db.session.commit()
+        return redirect(url_for("litters_page"))
+    
+    return render_template("edit_litter.html", litter=litter, years=years, current_year=current_year, pairings=pairings)
+
+
+@app.route("/litters/<int:litter_id>/delete", methods=['POST'])
+def delete_litter_from_page(litter_id):
+    litter = Litter.query.get_or_404(litter_id)
+    
+    db.session.delete(litter)
+    db.session.commit()
+    
+    return redirect(url_for("litters_page"))
+
+
 
 @app.route("/reports/")
 def reports_page():
