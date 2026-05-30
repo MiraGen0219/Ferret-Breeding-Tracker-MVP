@@ -3,6 +3,34 @@
 A full-stack ferret breeding management application built with Flask, SQLAlchemy, and MySQL. This project provides a centralized system for managing ferrets, breeding pairings, litter records, and breeder analytics while establishing the foundation for future pedigree and genetic analysis tools.
 
 ---
+## 🚧 Current Development Status
+
+### MVP 1 Progress
+
+#### Ferret Management
+- [x] Create Ferret
+- [x] View Ferrets
+- [x] Edit Ferret
+- [x] Delete Ferret
+- [x] Parentage Tracking
+
+#### Pairing Management
+- [ ] Create Pairing
+- [ ] View Pairings
+- [ ] Edit Pairing
+- [ ] Delete Pairing
+
+#### Litter Management
+- [ ] Create Litter
+- [ ] View Litters
+- [ ] Edit Litter
+- [ ] Delete Litter
+
+#### Reports
+- [ ] Breeder Analytics Dashboard
+- [ ] Production Summaries
+
+---
 
 ## 📖 Overview
 
