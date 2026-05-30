@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Ferret Breeding Tracker</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-    <h1>Ferret Breeding Tracker MVP</h1>
+{% extends "base.html" %}
 
-    <p>Track ferrets, breeding pairs, litters, and production summaries.</p>
+{% block content %}
 
-    <nav>
-        <a href="/ferrets">Ferrets</a>
-        <a href="/pairings">Pairings</a>
-        <a href="/litters">Litters</a>
-        <a href="/reports">Reports</a>
-    </nav>
-</body>
-</html>
+<h2>Home</h2>
+
+<p>Welcome to the Ferret Breeding Tracker.</p>
+
+{% endblock %}
