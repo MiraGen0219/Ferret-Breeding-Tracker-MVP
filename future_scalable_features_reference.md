@@ -137,15 +137,14 @@ before a new row is inserted.
 
 ---
 
-# Wildlife Database Future Expansion
+# Reports
 
-- GPS/location mapping
-- Habitat classification
-- Weather integration
-- Observation image uploads
-- Species statistics dashboards
-- Observation density heatmaps
-- Conservation status integration
+Breeder production report
+Kit survival report
+Color/pattern outcome report
+Retirement planning report
+Inbreeding/genetic analysis reports
+Printable pedigree reports
 
 ---
 

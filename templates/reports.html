@@ -4,6 +4,123 @@
 
 <h2>Reports</h2>
 
-<p>Reports will appear here.</p>
+<form method="POST">
+    <label>Report Type</label>
+    <select name="report_type">
+        <option value="litters_by_year">Litter Report by Year</option>
+        <option value="resident_ferrets">Resident Ferret List</option>
+        <option value="pairing_history">Pairing History Report</option>
+    </select>
+
+    <label>Year</label>
+    <input type="number" name="year" placeholder="2026">
+
+    <button type="submit">Generate Report</button>
+</form>
+
+
+{% if report_type == "litters_by_year" %}
+    <h3>Litter Report by Year{% if selected_year %}: {{ selected_year }}{% endif %}</h3>
+
+    {% if report_data %}
+        <table>
+            <tr>
+                <th>Year</th>
+                <th>Season</th>
+                <th>Birth Date</th>
+                <th>Jill</th>
+                <th>Hob</th>
+                <th>Kits Born</th>
+                <th>Kits Passed</th>
+                <th>Kits Survived</th>
+            </tr>
+
+            {% for litter in report_data %}
+            <tr>
+                <td>{{ litter.year }}</td>
+                <td>{{ litter.season }}</td>
+                <td>{{ litter.birth_date }}</td>
+                <td>{{ litter.pairing.jill.name }}</td>
+                <td>{{ litter.pairing.hob.name }}</td>
+                <td>{{ litter.kits_born }}</td>
+                <td>{{ litter.kits_passed }}</td>
+                <td>{{ litter.kits_survived }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No litter records found for this year.</p>
+    {% endif %}
+{% endif %}
+
+
+{% if report_type == "resident_ferrets" %}
+    <h3>Resident Ferret List</h3>
+
+    {% if report_data %}
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Sex</th>
+                <th>Birth Date</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Proven</th>
+                <th>Size</th>
+                <th>Color</th>
+                <th>Pattern</th>
+            </tr>
+
+            {% for ferret in report_data %}
+            <tr>
+                <td>{{ ferret.name }}</td>
+                <td>{{ ferret.sex }}</td>
+                <td>{{ ferret.birth_date }}</td>
+                <td>{{ ferret.role }}</td>
+                <td>{{ ferret.status }}</td>
+                <td>{{ "Yes" if ferret.proven else "No" }}</td>
+                <td>{{ ferret.size }}</td>
+                <td>{{ ferret.color }}</td>
+                <td>{{ ferret.pattern }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No resident ferrets found.</p>
+    {% endif %}
+{% endif %}
+
+
+{% if report_type == "pairing_history" %}
+    <h3>Pairing History Report</h3>
+
+    {% if report_data %}
+        <table>
+            <tr>
+                <th>Year</th>
+                <th>Season</th>
+                <th>Jill</th>
+                <th>Hob</th>
+                <th>Planned</th>
+                <th>Compatibility Notes</th>
+                <th>Breeding Notes</th>
+            </tr>
+
+            {% for pairing in report_data %}
+            <tr>
+                <td>{{ pairing.year }}</td>
+                <td>{{ pairing.season }}</td>
+                <td>{{ pairing.jill.name }}</td>
+                <td>{{ pairing.hob.name }}</td>
+                <td>{{ "Yes" if pairing.planned else "No" }}</td>
+                <td>{{ pairing.compatibility_notes }}</td>
+                <td>{{ pairing.breeding_notes }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No pairing records found.</p>
+    {% endif %}
+{% endif %}
 
 {% endblock %}

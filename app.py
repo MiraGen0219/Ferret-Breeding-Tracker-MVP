@@ -396,7 +396,6 @@ def delete_pairing_from_page(pairing_id):
 
 
 
-
 @app.route("/litters", methods=['GET', 'POST'])
 def litters_page():
     current_year = datetime.now().year
@@ -471,10 +470,34 @@ def delete_litter_from_page(litter_id):
     return redirect(url_for("litters_page"))
 
 
-
-@app.route("/reports/")
+@app.route("/reports", methods=['GET', 'POST'])
+@app.route("/reports/", methods=['GET', 'POST'])
 def reports_page():
-    return render_template("reports.html")
+    report_type = None
+    report_data = []
+    selected_year = None
+    
+    if request.method == "POST":
+        report_type = request.form.get("report_type")
+        selected_year = request.form.get("year")
+        
+        if report_type == "litters_by_year":
+            report_data = Litter.query.filter_by(year=selected_year).all()
+            
+        elif report_type == "resident_ferrets":
+            report_data = Ferret.query.filter(
+                Ferret.status.in_(["active", "inactive", "retired"])
+            ).order_by(Ferret.status, Ferret.name).all()
+            
+        elif report_type == "pairing_history":
+            report_data = Pairing.query.all()
+            
+    return render_template(
+        "reports.html",
+        report_type=report_type,
+        report_data=report_data,
+        selected_year=selected_year
+    )
 
 
 #------------------CRUD ENDPOINTS----------------------------
@@ -831,6 +854,8 @@ def get_jill_summary(jill_id):
     average_litter_size = total_kits_born / total_litters if total_litters > 0 else 0
     
     return jsonify({"jill_id": jill_id, "total_pairings": len(pairings), "total_litters": total_litters, "total_kits_born": total_kits_born, "total_kits_survived": total_kits_survived, "average_litter_size": average_litter_size})
+
+
 
 
 
