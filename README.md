@@ -1,37 +1,19 @@
-# 🦦 Ferret Breeding Tracker MVP
+## 🦦 Why This Project Exists
 
-A full-stack ferret breeding management application built with Flask, SQLAlchemy, and MySQL. This project provides a centralized system for managing ferrets, breeding pairings, litter records, and breeder analytics while establishing the foundation for future pedigree and genetic analysis tools.
+Most breeding software is built for dogs, cats, or livestock.
 
----
-## 🚧 Current Development Status
+This project was designed specifically around the needs of a ferret breeding program, including:
 
-### MVP 1 Progress
+- Parentage tracking
+- Pairing records
+- Litter outcomes
+- Breeder status management
+- Future pedigree analysis
+- Future genetic tracking
 
-#### Ferret Management
-- [x] Create Ferret
-- [x] View Ferrets
-- [x] Edit Ferret
-- [x] Delete Ferret
-- [x] Parentage Tracking
-
-#### Pairing Management
-- [ ] Create Pairing
-- [ ] View Pairings
-- [ ] Edit Pairing
-- [ ] Delete Pairing
-
-#### Litter Management
-- [ ] Create Litter
-- [ ] View Litters
-- [ ] Edit Litter
-- [ ] Delete Litter
-
-#### Reports
-- [ ] Breeder Analytics Dashboard
-- [ ] Production Summaries
+The long-term goal is to create a dedicated ferret breeding management platform that would allow breeders to communicate with each other as well as access pedigrees belonging to other ferretries if access is granted. This would potentially help breeders coordinate breeding efforts to align better with their in-house breeding goals, and, potentially benefit overall privately bred ferret health and genetics. 
 
 ---
-
 ## 📖 Overview
 
 The Ferret Breeding Tracker MVP was designed to replace scattered spreadsheets and manual record keeping with a structured relational database system.
@@ -51,7 +33,6 @@ This MVP focuses on operational breeder management and reporting.
 Future versions will expand into pedigree analysis, genetic tracking, inbreeding coefficient calculations, color/pattern inheritance analysis, and breeding recommendation tools.
 
 ---
-
 ## ✨ Features
 
 ### 🦦 Ferret Management
@@ -75,15 +56,33 @@ Future versions will expand into pedigree analysis, genetic tracking, inbreeding
   * Condition notes
 
 ---
-
 ### 👨‍👩‍👧 Parentage Tracking
 
 * Store father and mother relationships
 * Build pedigree foundations
 * Support future pedigree visualization features
 
----
+<img width="1874" height="609" alt="Screenshot 2026-05-31 125528" src="https://github.com/user-attachments/assets/ed45f6db-6bd3-487c-b78c-7ec86e1e7073" />
 
+---
+## 🖥 Web Interface
+
+MVP 1 includes a browser-based user interface built with:
+
+- Flask templates
+- Jinja rendering
+- HTML forms
+- CSS styling
+
+Users can:
+
+- Create records without Postman
+- Edit existing records
+- Delete records
+- Generate reports
+- Navigate between all application areas
+
+---
 ### ❤️ Pairing Management
 
 * Create breeding pairings
@@ -97,8 +96,10 @@ Future versions will expand into pedigree analysis, genetic tracking, inbreeding
   * Breeding notes
   * Planned status
 
----
+<img width="1878" height="855" alt="Screenshot 2026-05-31 125553" src="https://github.com/user-attachments/assets/e02c4897-0950-471b-bad7-12dbe8877b43" />
+<img width="1881" height="759" alt="Screenshot 2026-05-31 125624" src="https://github.com/user-attachments/assets/c8f9295c-df18-4597-9a26-74873be54f2b" />
 
+---
 ### 🍼 Litter Management
 
 * Create litter records
@@ -110,25 +111,22 @@ Future versions will expand into pedigree analysis, genetic tracking, inbreeding
   * Pregnancy behavior notes
   * Birth notes
   * Postpartum notes
+  
+<img width="1879" height="882" alt="Screenshot 2026-05-31 125643" src="https://github.com/user-attachments/assets/c1d3dd66-6032-4f67-bd93-e03a56b9f4d3" />
 
 ---
-
-### 📊 Analytics & Reporting
+### 📊 Reporting
 
 Generate breeding statistics including:
 
-* Litters by jill
-* Pairings by hob
-* Active breeders
-* Retired breeders
-* Yearly production summaries
-* Hob production summaries
-* Jill production summaries
-* Average litter sizes
-* Survival rates
+* Resident Ferrets Account
+* Pairing History Report
+* Yearly production Summary
+
+<img width="1882" height="502" alt="Screenshot 2026-05-31 125700" src="https://github.com/user-attachments/assets/644aa225-659a-4e35-a086-ecfa05dd3e80" />
+<img width="1872" height="570" alt="Screenshot 2026-05-31 130534" src="https://github.com/user-attachments/assets/2f38c2b5-9483-4489-9400-4de32d5e81da" />
 
 ---
-
 ### 🌱 Demo Data Seeding
 
 Includes a seed script for:
@@ -139,8 +137,9 @@ Includes a seed script for:
 * Demo litters
 * Parentage relationships
 
----
+<img width="1498" height="813" alt="Screenshot 2026-05-31 130413" src="https://github.com/user-attachments/assets/cedc616f-06b0-45b5-92bc-3bfed23548fc" />
 
+---
 ## 🏗 Tech Stack
 
 ### Backend
@@ -165,7 +164,6 @@ Includes a seed script for:
 * Postman
 
 ---
-
 ## 🗂 Database Structure
 
 ### Ferret
@@ -183,7 +181,6 @@ Ferret
 ```
 
 ---
-
 ### Pairing
 
 Stores breeding pair information.
@@ -196,7 +193,6 @@ Pairing
 ```
 
 ---
-
 ### Litter
 
 Stores litter records and production outcomes.
@@ -209,7 +205,6 @@ Litter
 ```
 
 ---
-
 ## 🚀 Installation
 
 ### Clone Repository
@@ -275,7 +270,6 @@ python app.py
 ```
 
 ---
-
 ## 🌱 Loading Demo Data
 
 Populate the database:
@@ -293,7 +287,6 @@ This script:
 * Creates litter records
 
 ---
-
 ## 🔌 Example API Endpoints
 
 ### Ferrets
@@ -343,7 +336,6 @@ GET /jill/<id>/production-summary
 ```
 
 ---
-
 ## 📈 Future Roadmap
 
 ### Version 2
@@ -371,7 +363,6 @@ GET /jill/<id>/production-summary
 * Multi-ferretry support
 
 ---
-
 ## 🎯 Learning Objectives
 
 This project demonstrates:
@@ -386,7 +377,6 @@ This project demonstrates:
 * Full-stack application architecture
 
 ---
-
 ## 🧠 Lessons Learned
 
 Some of the most valuable lessons came from debugging and solving real-world development problems.
@@ -447,13 +437,11 @@ Some of the most valuable lessons came from debugging and solving real-world dev
 Many of the most valuable skills were learned while solving problems that were never part of the original feature list.
 
 ---
-
 ## 📜 License
 
 This project is intended for educational, portfolio, and breeder-management purposes.
 
 ---
-
 ## 👤 Author
 
 Erin
