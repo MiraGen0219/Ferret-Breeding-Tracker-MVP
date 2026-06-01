@@ -442,8 +442,14 @@ Many of the most valuable skills were learned while solving problems that were n
 This project is intended for educational, portfolio, and breeder-management purposes.
 
 ---
-## 👤 Author
+## 👩‍💻 Author
 
 Erin
 
-Software Engineer | Ferret Breeder | Database & Breeding Analytics Enthusiast
+Software Engineer | Ferret Breeder | Full-Stack Developer in Training
+
+Building practical software solutions for animal breeding management and genetic record keeping.
+
+## Status
+
+In active development.
