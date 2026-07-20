@@ -14,15 +14,22 @@ from datetime import datetime
 app = Flask(__name__)
 
 load_dotenv()
-DB_USER = os.getenv("MYSQL_USER")
-DB_PASSWORD = os.getenv("MYSQL_PASSWORD")
-DB_HOST = os.getenv("MYSQL_HOST")
-DB_NAME = os.getenv("MYSQL_DATABASE")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f'mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
-)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+else:
+    DB_USER = os.getenv("MYSQL_USER")
+    DB_PASSWORD = os.getenv("MYSQL_PASSWORD")
+    DB_HOST = os.getenv("MYSQL_HOST")
+    DB_NAME = os.getenv("MYSQL_DATABASE")
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = (
+        f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+    )
+
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Create Base Model:
 class Base(DeclarativeBase):
