@@ -23,10 +23,12 @@ else:
     DB_USER = os.getenv("MYSQL_USER")
     DB_PASSWORD = os.getenv("MYSQL_PASSWORD")
     DB_HOST = os.getenv("MYSQL_HOST")
+    DB_PORT = os.getenv("MYSQL_PORT")
     DB_NAME = os.getenv("MYSQL_DATABASE")
 
     app.config["SQLALCHEMY_DATABASE_URI"] = (
-        f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+        f"mysql+mysqlconnector://{DB_USER}:{DB_PASSWORD}"
+        f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
